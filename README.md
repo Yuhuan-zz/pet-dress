@@ -155,6 +155,7 @@ python tools/build_anim.py --image raw/cover.png --mode ai --out-png test/cut.pn
 
 其它老坑：
 
+- **素材天生就大**：dsh-pet 是视频渲染，每个动作都是烧进视频的（不是骨骼/精灵图），一套衣服 15~20MB 是正常的——原生 dsh-pet 自己的 `assets/webm` 也有 56MB / 114 段，我们在同一量级。想省体积只能降 CRF、缩短时长或降分辨率，都会牺牲画质；用 PNG/WebP 替代不行，播放器播的是 `<video>`。
 - **中文文件名**：shell 里没问题；但 **Python subprocess 把中文路径传给 ffmpeg 会炸**，中间产物一律用 ASCII 名，最后再改成中文。
 - **素材只查自己目录**：包里引用了但目录里没有的名字 = 404，那只宠物就播不出来。
 - **改完要完全重启 DSH**（换动作只重载配置，加新包必须重启）。
