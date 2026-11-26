@@ -1,0 +1,115 @@
+{
+  "pets": [
+    {
+      "id": "bubble-rain-main",
+      "name": "鲸雪冬装",
+      "size": 360,
+      "balanceEnabled": true,
+      "whisperEnabled": true,
+      "workStatusEnabled": true,
+      "fixedEnabled": false,
+      "display": "none",
+      "position": {
+        "corner": "top-right",
+        "marginX": 24,
+        "marginY": 100
+      }
+    }
+  ],
+  "_comment": [
+    "bubble-rain-animation/ 里的 webm 文件名就是动作名：换动作=替换同名文件，加动作=放新文件再在 animations 里引用。",
+    "所有槽位引用的文件都必须存在，缺一个整只宠物会回退到内置默认。"
+  ],
+  "animations": {
+    "idle": [
+      "待机呼吸"
+    ],
+    "turn": [
+      "左顾右盼"
+    ],
+    "drag": [
+      "被拖拽悬空"
+    ],
+    "clicks": [
+      "点击回应-开心招手",
+      "点击回应-傲娇生气",
+      "点击回应-害羞捂嘴",
+      "点击回应-挠痒咯咯笑",
+      "点击回应-元气挥手"
+    ],
+    "moves": {
+      "default": {
+        "minDist": 60,
+        "maxDist": 240,
+        "margin": 20,
+        "leadSec": 2,
+        "tailSec": 2
+      },
+      "actions": [
+        {
+          "name": "走路"
+        },
+        {
+          "name": "小跑"
+        }
+      ]
+    },
+    "categories": [],
+    "events": {
+      "workStatus": [
+        [
+          "工作状态-思考冒泡"
+        ],
+        [
+          "工作状态-忙碌点按"
+        ],
+        [
+          "工作状态-整理清单"
+        ],
+        [
+          "工作状态-等待张望"
+        ],
+        [
+          "工作状态-优雅收尾",
+          "工作状态-雀跃庆祝"
+        ],
+        [
+          "工作状态-出错叹气"
+        ]
+      ],
+      "balance": [
+        [
+          "余额-钱袋满溢"
+        ],
+        [
+          "余额-钱袋满溢"
+        ],
+        [
+          "余额-钱袋如常"
+        ],
+        [
+          "余额-数金皱眉"
+        ],
+        [
+          "余额-数金皱眉"
+        ],
+        [
+          "余额-分文不剩"
+        ]
+      ]
+    },
+    "sleep": [
+      {
+        "start": [
+          "睡觉-开始"
+        ],
+        "loop": [
+          "睡觉-循环"
+        ],
+        "end": [
+          "睡觉-起来"
+        ]
+      }
+    ]
+  }
+}

@@ -1,3 +1,9 @@
+# 本地工作目录：角色原始素材、中间帧、测试脚本，都不进仓库
+raw/
 test/
+pp*/
 models/*.onnx
+
 __pycache__/
+*.pyc
+*.log

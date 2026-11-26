@@ -58,7 +58,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True, help="种类名（= 文件名前缀 = 素材根）")
     ap.add_argument("--action", required=True, help="占位动作名（先全槽位指向它）")
-    ap.add_argument("--pet-name", default="泡泡")
+    ap.add_argument("--pet-name", default="我的桌宠", help="宠物默认名，只影响菜单显示，可以随便改")
     ap.add_argument("--display", default="desktop", choices=["web", "desktop", "both", "none"])
     ap.add_argument("--size", type=int, default=400)
     ap.add_argument("--home", default=os.path.join(os.path.expanduser("~"), ".dsh", "dsh-pet"))

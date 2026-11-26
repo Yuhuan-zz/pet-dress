@@ -1,0 +1,31 @@
+# 四套衣服素材的许可
+
+本文件只覆盖 `pets/` 目录下的**动画素材和形象**（四个 `*-animation/` 里的 webm，
+以及四套 `*-config.json` 里 `pets[].name` 所指的角色形象）。
+`index.js` 与 `tools/` 里的代码仍按 [LICENSE](LICENSE)（MIT）。
+
+## 许可
+
+**Creative Commons Attribution-NonCommercial 4.0 International（CC BY-NC 4.0）**
+
+- 许可全文：https://creativecommons.org/licenses/by-nc/4.0/legalcode
+- 中文摘要：https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans
+
+要点：
+
+- **允许**：个人、学习、非商业场景下的使用、复制、修改、再分发。
+- **禁止**：任何形式的商业使用（含付费产品、广告、商业演示、商业分发）。
+- **必须署名**：注明作者 **AyAy1314_** 和来源仓库。
+- **改编**：可以改，但改完仍须遵守本许可（非商业 + 署名）。
+- **不得增加额外限制**：不能对本素材施加比 CC BY-NC 4.0 更严的条款。
+
+## 素材生成方式
+
+四套衣服的原始视频由 **豆包 Seedance 2.0** 制作，**角色形象为二创**；
+再经本地脚本（`tools/build_anim.py`）做绿幕抠像、对齐、缩放、转码为 640×360 VP9-alpha。
+
+## 权利说明
+
+素材由豆包制作、角色形象为二创；这里只对**本仓库附带的这些素材文件**
+声明非商业使用限制（CC BY-NC 4.0）：禁止商业使用，非商业使用时请署名。
+商用（周边、付费内容、品牌合作等）请先联系作者。

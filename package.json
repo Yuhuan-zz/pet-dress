@@ -1,0 +1,37 @@
+{
+  "name": "pet-dress",
+  "version": "0.1.0",
+  "description": "给 dsh-pet 加右键换装，并自带四套衣服：装一个插件，整套外观 + 动作一起换",
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "pets",
+    "tools",
+    "README.md",
+    "LICENSE",
+    "LICENSE-ASSETS"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "dsh-pet": ">=0.4.8"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT",
+  "author": "AyAy1314_",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "dsh-pet",
+    "desktop-pet",
+    "wardrobe",
+    "dress"
+  ]
+}

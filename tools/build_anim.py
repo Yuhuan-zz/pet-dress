@@ -98,7 +98,10 @@ def cut_image(rgb: np.ndarray, mode: str, u2net: "U2Net | None") -> np.ndarray:
 # ---------------- 对齐 ----------------
 
 def bbox_of(alpha: np.ndarray, thr: int = 32):
-    ys, xs = np.where(alpha > thr)
+    # h264 会在绿幕边缘留少量色噪，色键会把它们误判成前景；先腐蚀一轮去掉零散点，
+    # 否则几颗噪点就能把包围盒撑到整幅画面宽，scale 被压小、角色变小。
+    clean = np.asarray(Image.fromarray(alpha).filter(ImageFilter.MinFilter(3)))
+    ys, xs = np.where(clean > thr)
     if len(xs) == 0:
         return None
     return xs.min(), ys.min(), xs.max(), ys.max()
@@ -160,7 +163,18 @@ def main():
     ap.add_argument("--mode", default="auto", choices=["auto", "chroma", "ai"])
     ap.add_argument("--model", default=os.path.join(os.path.dirname(__file__), "..", "models", "u2netp.onnx"))
     ap.add_argument("--keep-frames", action="store_true")
+    # 对齐比例：内置素材实测是 头顶 17.8% / 脚底 91.4%（不是文档写的 20/85）。
+    # 跟内置对齐，换装后大小才和原宠物一致。
+    ap.add_argument("--top", type=float, default=TOP_RATIO)
+    ap.add_argument("--feet", type=float, default=FEET_RATIO)
+    # 跳跃类动作：缩放锚点用首帧（站立）而不是所有帧的并集
+    ap.add_argument("--align-first", action="store_true")
+    # 拖拽悬空：整只上移画布比例（0.06 = 往上 6%），否则会被 91.4% 脚底对齐拉回地面
+    ap.add_argument("--lift", type=float, default=0.0)
     a = ap.parse_args()
+    global CHAR_H, FEET_Y
+    CHAR_H = int(round((a.feet - a.top) * CANVAS_H))
+    FEET_Y = int(round(a.feet * CANVAS_H))
 
     u2net = None
     need_ai = a.mode == "ai"
@@ -222,11 +236,27 @@ def main():
     x0 = min(b[0] for b in boxes); y0 = min(b[1] for b in boxes)
     x1 = max(b[2] for b in boxes); y1 = max(b[3] for b in boxes)
     union_h = max(1, y1 - y0 + 1)
-    scale = CHAR_H / union_h
-    print("包围盒并集 %dx%d → scale %.3f" % (x1 - x0 + 1, union_h, scale))
+    dx = dy = 0.0
+    if a.align_first and boxes:
+        # 跳跃/带道具的动作：缩放和放置都以首帧（站立）为锚点，否则并集被跳起的高度或
+        # 边缘噪点撑大时，站立帧会变矮、脚底会悬空。
+        fb = boxes[0]
+        base_h = max(1, fb[3] - fb[1] + 1)
+        scale = CHAR_H / base_h
+        dx = ((x0 + x1) / 2 - (fb[0] + fb[2]) / 2) * scale
+        dy = (y1 - fb[3]) * scale
+        print("首帧高度对齐 %d → scale %.3f（包围盒并集高 %d，dx %.1f dy %.1f）"
+              % (base_h, scale, union_h, dx, dy))
+    else:
+        scale = CHAR_H / union_h
+        print("包围盒并集 %dx%d → scale %.3f" % (x1 - x0 + 1, union_h, scale))
+    # 拖拽类动作：整只抬离地面（脚底高于常规 91.4%），否则抠像对齐后悬空会被抹平
+    if a.lift:
+        dy -= a.lift * CANVAS_H
+        print("抬升 %.0f%% → dy %.1f" % (a.lift * 100, dy))
 
     for i, rgba in enumerate(prepared, 1):
-        canvas = place(rgba, (x0, y0, x1, y1), scale, 0, 0)
+        canvas = place(rgba, (x0, y0, x1, y1), scale, dx, dy)
         canvas.save(os.path.join(cut_dir, "a_%05d.png" % i))
 
     os.makedirs(a.out, exist_ok=True)
