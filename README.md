@@ -38,11 +38,13 @@
 
 ## 安装
 
-在 DSH 的 profile 目录里：
+已发布到 npm，在 DSH 的 profile 目录里：
 
 ```bash
-pnpm add file:/path/to/pet-dress
+pnpm add pet-dress
 ```
+
+（本地开发时用 `pnpm add file:/path/to/pet-dress`。）
 
 然后把 `pet-dress` 写进 profile 的 `dsh.profile.bundles`，重启 DSH。
 
